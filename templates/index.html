@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
+    <title>Flask WebSocket Example</title>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script>
+        // Connect to the WebSocket server
+        const socket = io.connect('http://0.0.0.0:5000');
+
+        function playVideo() {
+            const videoElement = document.getElementById('videoPlayer');
+            videoElement.volume = 0.2
+            videoElement.play(); // Start playing the video
+            videoElement.style.opacity = 1;
+            videoElement.currentTime = 0; // Reset to the start of the video
+        }
+        function updateName(newName) {
+                const nameContainer = document.querySelector('.name');
+                nameContainer.innerHTML = ''; // Clear the existing name
+                
+                // Loop through each character of the new name and create a span for it
+                newName.split('').forEach((char, index) => {
+                    const span = document.createElement('span');
+                    span.style.setProperty('--i', index + 1); // Set the animation delay
+                    span.textContent = char; // Set the character as text
+                    nameContainer.appendChild(span); // Append the span to the name container
+                });
+            }
+        function updateamount(newName) {
+                const nameContainer = document.querySelector('.amount');
+                nameContainer.innerHTML = ''; // Clear the existing name
+                
+                // Loop through each character of the new name and create a span for it
+                newName.split('').forEach((char, index) => {
+                    const span = document.createElement('span');
+                    span.style.setProperty('--i', index + 1); // Set the animation delay
+                    span.textContent = char; // Set the character as text
+                    nameContainer.appendChild(span); // Append the span to the name container
+                });
+            }
+
+        function updatemessage(message){
+            const messagecontainer = document.querySelector('.contents');
+            messagecontainer.innerHTML = '';
+            const text1 = document.createElement('h1');
+            text1.textContent = message;
+            messagecontainer.appendChild(text1)
+        }
+        socket.on('connect', function() {
+            console.log("Connected to WebSocket server");
+        });
+        
+        // Receive messages from the server
+        socket.on('message', function(data) {
+            console.log('Message from server:', data);
+            playVideo();
+            if (data.name) {
+                    updateName(data.name); // Update the name dynamically when received
+                }
+            if (data.amount){
+                updateamount(data.amount)
+            }
+            if (data.message){
+                updatemessage(data.message)
+            }
+
+        });
+        
+        document.addEventListener("DOMContentLoaded", function() {
+    const videoElement = document.getElementById('videoPlayer');
+    
+    // Handle the "ended" event for the video
+    videoElement.addEventListener('ended', function() {
+        const nameContainer = document.querySelector('.name');
+        const amountContainer = document.querySelector('.amount');
+        const messagecontainer = document.querySelector('.contents');
+        messagecontainer.innerHTML = '';
+        amountContainer.innerHTML = '';
+        nameContainer.innerHTML = ''; // Clear the existing name
+                
+        videoElement.style.opacity = 0; // Set opacity to 0 when video ends
+    });
+});
+    </script>
+</head>
+<body>
+    <video id="videoPlayer" width="800" height="800" >
+        <source src="static/vids/beast.mp4" type="video/mp4">
+    </video>
+    <div class="name">
+
+       </div>
+    
+    <div class="amount">
+
+       </div>
+    <div class="contents">
+    </div>
+    
+</body>
+</html>
