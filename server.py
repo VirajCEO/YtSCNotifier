@@ -10,7 +10,7 @@ socketio = SocketIO(app)
 
 @app.route('/')
 def index():
-    return redirect('https://rzp.io/l/aloxen')
+    return redirect('https://rzp.io/l/aloxen') 
 
 @app.route('/notify')
 def notifier():
