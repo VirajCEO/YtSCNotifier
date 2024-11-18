@@ -1,16 +1,17 @@
 const express = require('express');
 const crypto = require('crypto');
 const fs = require('fs');
-const https = require('https');
+const https = require('https')
+const path = require('path');
 const http = require('http');
 const { Server } = require('socket.io');
 
 const app = express();
-
+const VIDEOS_FOLDER = path.join(__dirname, './public/vids');
 
 app.use('/css', express.static(path.join(__dirname, './public/css')));
 
-app.use('/vids', express.static(path.join(__dirname, './public/vids')));
+app.use('/vids', express.static(VIDEOS_FOLDER));
 
 // SSL certificate paths
 const privateKey = fs.readFileSync('/etc/letsencrypt/live/aloxen.in/privkey.pem', 'utf8');
