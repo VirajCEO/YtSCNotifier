@@ -8,9 +8,9 @@ const { Server } = require('socket.io');
 const app = express();
 
 
-app.use('/css', express.static(path.join(__dirname, '../public/css')));
+app.use('/css', express.static(path.join(__dirname, './public/css')));
 
-app.use('/vids', express.static(path.join(__dirname, '../public/vids')));
+app.use('/vids', express.static(path.join(__dirname, './public/vids')));
 
 // SSL certificate paths
 const privateKey = fs.readFileSync('/etc/letsencrypt/live/aloxen.in/privkey.pem', 'utf8');
@@ -30,6 +30,27 @@ app.get('/', (req, res) => {
 // Render the notification page
 app.get('/notify', (req, res) => {
   res.sendFile(__dirname + '/index.html');
+});
+
+app.get('/random_video', (req, res) => {
+    fs.readdir(VIDEOS_FOLDER, (err, files) => {
+        if (err) {
+            return res.status(500).send('Unable to read videos folder');
+        }
+
+        // Filter to get only .mp4 files
+        const videoFiles = files.filter(file => file.endsWith('.mp4'));
+        
+        if (videoFiles.length === 0) {
+            return res.status(404).send('No video files found');
+        }
+
+        // Pick a random video
+        const randomVideo = videoFiles[Math.floor(Math.random() * videoFiles.length)];
+
+        // Send the video file name
+        res.json({ video: randomVideo });
+    });
 });
 
 
@@ -53,9 +74,6 @@ function sendNotification(data) {
 app.post('/rp-gateway', (req, res) => {
   const webhookData = req.body;
   const payload = JSON.stringify(webhookData);
-  const signature = req.headers['x-razorpay-signature'];
-  console.log('WEB HOOK DATA : ');
-  console.log(webhookData);
   sendNotification(webhookData);
   res.json({ status: 'success' });
 
@@ -67,9 +85,7 @@ const io = new Server(httpsServer);
 
 // Socket.io connection
 io.on('connection', (socket) => {
-  console.log('Client connected');
   socket.on('disconnect', () => {
-    console.log('Client disconnected');
   });
 });
 
