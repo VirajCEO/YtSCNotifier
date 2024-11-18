@@ -7,6 +7,11 @@ const { Server } = require('socket.io');
 
 const app = express();
 
+
+app.use('/css', express.static(path.join(__dirname, '../public/css')));
+
+app.use('/vids', express.static(path.join(__dirname, '../public/vids')));
+
 // SSL certificate paths
 const privateKey = fs.readFileSync('/etc/letsencrypt/live/aloxen.in/privkey.pem', 'utf8');
 const certificate = fs.readFileSync('/etc/letsencrypt/live/aloxen.in/cert.pem', 'utf8');

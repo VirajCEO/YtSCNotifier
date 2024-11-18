@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <title>Flask WebSocket Example</title>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
     <script>
         // Connect to the WebSocket server
-        const socket = io.connect('http://aloxen.in:5000');
+        const socket = io.connect('https://aloxen.in');
 
         function playVideo() {
             const videoElement = document.getElementById('videoPlayer');
@@ -88,7 +88,7 @@
 </head>
 <body>
     <video id="videoPlayer" width="800" height="800" >
-        <source src="/beast.mp4" type="video/mp4">
+        <source src="/vids/beast.mp4" type="video/mp4">
     </video>
     <div class="name">
 
