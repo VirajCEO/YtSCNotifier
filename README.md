@@ -50,7 +50,7 @@ With YtSCNotifier, you get:
 
 ```bash
 git clone https://github.com/yourusername/YtSCNotifier.git
-cd razornotify
+cd YtSCNotfier.git
 ```
 
 2. Install dependencies
