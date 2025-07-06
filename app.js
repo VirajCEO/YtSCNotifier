@@ -14,9 +14,9 @@ app.use('/css', express.static(path.join(__dirname, './public/css')));
 app.use('/vids', express.static(VIDEOS_FOLDER));
 
 // SSL certificate paths
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/aloxen.in/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/aloxen.in/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/aloxen.in/chain.pem', 'utf8');
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/yourdomain.com/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/yourdomain.com/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/yourdomain.com/chain.pem', 'utf8');
 
 const credentials = { key: privateKey, cert: certificate, ca: ca };
 
@@ -93,5 +93,5 @@ io.on('connection', (socket) => {
 // Start the server
 const PORT = process.env.PORT || 443;
 httpsServer.listen(PORT, () => {
-  console.log(`HTTPS server running on https://aloxen.in:${PORT}`);
+  console.log(`HTTPS server running on https://yourdomain.com:${PORT}`);
 });
